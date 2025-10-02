@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json* ./
 
-# instalar TODO (prod + dev)
+# instalar todo (incluyendo devDependencies para compilar con tsc)
 RUN npm ci
 
 COPY . ./
@@ -12,7 +12,7 @@ COPY . ./
 # compilar
 RUN npm run build
 
-# quitar devDependencies para aligerar la imagen final
+# quitar devDependencies para aligerar la imagen
 RUN npm prune --omit=dev
 
 EXPOSE 3000

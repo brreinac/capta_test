@@ -56,7 +56,7 @@ app.get("/api/calculate", async (req: Request, res: Response) => {
     // Convertir a UTC ISO estrictamente con Z y sin milisegundos
     const finalISO = result
       .toUTC()
-      .toISO({ suppressMilliseconds: true, includeOffset: false });
+      .toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     return res.json({ date: finalISO });
   } catch (err) {
@@ -69,7 +69,7 @@ app.get("/api/calculate", async (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`API running on http://localhost:${PORT}`);
+  console.log(`API running on port ${PORT}`);
 });
 
 export default app;

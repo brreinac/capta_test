@@ -21,8 +21,7 @@ async function loadHolidays(): Promise<void> {
 }
 
 function isHoliday(date: DateTime): boolean {
-  const iso = date.toISODate();
-  return holidays.includes(iso);
+  return holidays.includes(date.toISODate() ?? "");
 }
 
 function isBusinessDay(date: DateTime): boolean {

@@ -102,5 +102,41 @@ export function addBusinessHours(date: DateTime, hours: number): DateTime {
   return current;
 }
 
+// ---- Nueva función central para los tests ----
+export interface CalculationInput {
+  days?: number;
+  hours?: number;
+  date?: string; // fecha inicial en UTC
+}
+
+export function calculateWorkingTime(input: CalculationInput): string {
+  const { days = 0, hours = 0, date } = input;
+
+  // punto de partida: si hay date usarlo, si no usar "ahora" en Colombia
+  let current = date
+    ? DateTime.fromISO(date, { zone: "utc" }).setZone("America/Bogota")
+    : DateTime.now().setZone("America/Bogota");
+
+  // normalizar al horario laboral
+  current = normalizeToBusinessTime(current);
+
+  // primero sumar días hábiles
+  if (days > 0) {
+    current = addBusinessDays(current, days);
+  }
+
+  // luego sumar horas hábiles
+  if (hours > 0) {
+    current = addBusinessHours(current, hours);
+  }
+
+  // devolver en UTC ISO
+  const iso = current.toUTC().toISO();
+  if (!iso) {
+    throw new Error("Error al convertir a ISO");
+  }
+  return iso;
+}
+
 // Inicializar festivos al cargar módulo
 loadHolidays().then(() => console.log("Festivos cargados:", holidays.length));

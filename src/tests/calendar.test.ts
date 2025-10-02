@@ -1,4 +1,4 @@
-import { calculateWorkingTime } from "../src/utils/calendar";
+import { calculateWorkingTime } from "../utils/calendar";
 
 describe("API Working Days - Cálculo de fechas", () => {
   it("Caso 1: 1 día desde 2023-06-19 08:00 (feriado) → 2023-06-20 08:00", () => {
